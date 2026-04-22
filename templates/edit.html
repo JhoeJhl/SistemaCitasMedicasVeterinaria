@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% block content %}
+<h2>Editar Cita</h2>
+<form action="/modificarcita" method="post">
+   <input type="hidden" name="id" value="{{persona.id}}">
+  <div class="mb-3">
+    <label for="" class="form-label">Mascota</label>
+    <input
+      type="text"
+      class="form-control"
+      name="mascota"
+      value="{{persona.mascota}}"
+      placeholder="Nombre de la mascota"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <label for="" class="form-label">Propietario</label>
+    <input
+      type="text"
+      class="form-control"
+      name="propietario"
+      value="{{persona.propietario}}"
+      placeholder="Nombre del Propietario"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <label for="" class="form-label">Especie</label>
+    <input
+      type="text"
+      class="form-control"
+      name="especie"
+      value="{{persona.especie}}"
+      placeholder="Tipo de especie"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <label for="" class="form-label">Fecha</label>
+    <input type="date" class="form-control" name="fecha" value="{{persona.fecha}}" required />
+  </div>
+
+  <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+{% endblock %}

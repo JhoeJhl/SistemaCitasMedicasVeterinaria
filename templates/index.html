@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Listado de personas</h1>
+
+<a href="/agendar" class="btn btn-success mb-3">Nueva Cita</a>
+
+<table class="table">
+    <thead class="table-dark">
+        <tr col="1">
+            <th>ID</th>
+            <th>Mascota</th>
+            <th>Propietario</th>
+            <th>Especie</th>
+            <th>Fecha</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in consulta %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.mascota }}</td>
+            <td>{{ item.propietario }}</td>
+            <td>{{ item.especie }}</td>
+            <td>{{ item.fecha }}</td>
+            <td><a href="/modificar/{{ item.id }}" class="btn btn-primary">Editar</a></td>
+            <td><a href="/delete/{{ item.id}}" class="btn btn-danger" onclick="return (confirm('¿Esta seguro de eliminar el registro?'))">Eliminar</a></td>
+        </tr>
+
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% block content %}
+<h2>Nuevo Registro</h2>
+<form action="/guardarcita" method="post">
+  <div class="mb-3">
+    <label for="" class="form-label">Mascota</label>
+    <input
+      type="text"
+      class="form-control"
+      name="mascota"
+      placeholder="Nombre de la mascota"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <label for="" class="form-label">Propietario</label>
+    <input
+      type="text"
+      class="form-control"
+      name="propietario"
+      placeholder="Nombre del Propietario"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <label for="" class="form-label">Especie</label>
+    <input
+      type="text"
+      class="form-control"
+      name="especie"
+      placeholder="Tipo de especie"
+      required
+    />
+  </div>
+  <div class="mb-3">
+    <label for="" class="form-label">Fecha</label>
+    <input type="date" class="form-control" name="fecha" required />
+  </div>
+
+  <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+{% endblock %}

@@ -23,26 +23,76 @@ def init_db():
 #Inicializacion de la base de datos
 init_db()
 
-#rutas
+#RUTAS
 @app.route('/') #muestra todas las citas
 def agenda():
-    pass
+
+    conn = sqlite3.connect('citas.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM pacientes')
+
+    consulta = cursor.fetchall()
+
+    return render_template('index.html', consulta=consulta)
 
 @app.route('/agendar') #redirige al formulario para registrar una cita
 def agendar():
-    render_template('create.html')
+    return render_template('create.html')
 
-@app.route('/guardarcita', methods=['POST']) #guarda en la base de datos el registro de create.html
-def method_name():
-    pass
+#guarda en la base de datos el registro de create.html
+@app.route('/guardarcita', methods=['POST']) 
+def guardarcita():
+   mascota = request.form['mascota']
+   propietario = request.form['propietario']
+   especie = request.form['especie']
+   fecha = request.form['fecha']
 
-@app.route('/modificar/<int:id>', methods=['POST']) # redirige al edit.html para editar un registro en especifico
-def modificar(id):
-    pass
+   conn = sqlite3.connect('citas.db')
+   cursor = conn.cursor()
+   cursor.execute('INSERT INTO pacientes (mascota, propietario, especie, fecha) VALUES (?,?,?,?)', (mascota, propietario, especie, fecha))
+   conn.commit()
+   conn.close()
+
+   return redirect("/")
+
+#redirige al edit.html para editar un registro en especifico
+@app.route('/modificar/<int:id>', methods=['POST']) 
+def modificarcita(id):
+    conn = sqlite3.connect('citas.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM pacientes WHERE id = ?', (id,))
+    persona = cursor.fetchone()
+
+    return render_template('edit.html', persona=persona)
+
+#procesa la actualizacion del registro
+@app.route('/update_cita', methods=['POST'])
+def update_cita():
+    id = request.form['id']
+    mascota = request.form['mascota']
+    propietario = request.form['propietario']
+    especie = request.form['especie']
+    fecha = request.form['fecha']
+
+    conn = sqlite3.connect('citas.db')
+    cursor = conn.cursor()
+    cursor.execute('UPDATE pacientes SET mascota = ?, propietario = ?, especie = ?, fecha = ? WHERE id = ?', (mascota, propietario, especie, fecha, id))
+    conn.commit()
+    conn.close()
+
+    return redirect("/")
 
 @app.route('/cancelar/<int:id>') #elimina un registro en especifico
-def method_name():
-    pass
+def cancelarcita(id):
+    conn = sqlite3.connect('citas.db')
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM pacientes WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+
+    return redirect("/")
 
 if __name__=='__main__':
     app.run(debug=True)
